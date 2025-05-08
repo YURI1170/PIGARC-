@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} ?: 'PIGARC - Plateforme Intégrée de Gestion'">PIGARC</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Toastify pour les notifications -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <div class="flex h-screen">
+        <aside class="w-64 bg-gray-800 text-white transform transition-transform duration-300 ease-in-out" id="sidebar">
+            <div class="p-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold">PIGARC</h1>
+                <button id="sidebarToggle" class="lg:hidden">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <nav class="mt-4">
+                <ul>
+                    <li class="mb-2">
+                        <a th:href="@{/dashboard}" class="block px-4 py-2 hover:bg-gray-700 transition-colors duration-200">
+                            <i class="fas fa-chart-line mr-2"></i> Tableau de bord
+                        </a>
+                    </li>
+                    <li class="mb-2" sec:authorize="hasAnyRole('ADMIN', 'STOCK_MANAGER')">
+                        <a th:href="@{/stock}" class="block px-4 py-2 hover:bg-gray-700 transition-colors duration-200">
+                            <i class="fas fa-box mr-2"></i> Gestion du stock
+                        </a>
+                    </li>
+                    <li class="mb-2" sec:authorize="hasAnyRole('ADMIN', 'HR_MANAGER')">
+                        <a th:href="@{/employees}" class="block px-4 py-2 hover:bg-gray-700 transition-colors duration-200">
+                            <i class="fas fa-users mr-2"></i> Employés
+                        </a>
+                    </li>
+                    <li class="mb-2" sec:authorize="hasAnyRole('ADMIN', 'HR_MANAGER')">
+                        <a th:href="@{/schedules}" class="block px-4 py-2 hover:bg-gray-700 transition-colors duration-200">
+                            <i class="fas fa-calendar mr-2"></i> Horaires
+                        </a>
+                    </li>
+                    <li class="mb-2" sec:authorize="hasAnyRole('ADMIN', 'HR_MANAGER', 'STOCK_MANAGER')">
+                        <a th:href="@{/reports}" class="block px-4 py-2 hover:bg-gray-700 transition-colors duration-200">
+                            <i class="fas fa-file-alt mr-2"></i> Rapports
+                        </a>
+                    </li>
+                    <li class="mb-2" sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/settings}" class="block px-4 py-2 hover:bg-gray-700 transition-colors duration-200">
+                            <i class="fas fa-cog mr-2"></i> Paramètres
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm sticky top-0 z-10">
+                <div class="flex justify-between items-center px-6 py-4">
+                    <div class="flex items-center">
+                        <button id="mobileSidebarToggle" class="lg:hidden mr-4">
+                            <i class="fas fa-bars text-gray-600"></i>
+                        </button>
+                        <h2 class="text-xl font-semibold" th:text="${pageTitle}">Titre de la page</h2>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <!-- Notifications -->
+                        <div class="relative" id="notificationsDropdown">
+                            <button class="p-2 hover:bg-gray-100 rounded-full">
+                                <i class="fas fa-bell text-gray-600"></i>
+                                <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center" 
+                                      th:if="${notificationsCount > 0}" th:text="${notificationsCount}">0</span>
+                            </button>
+                            <div class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-20" id="notificationsMenu">
+                                <div class="px-4 py-2 border-b">
+                                    <h3 class="font-semibold">Notifications</h3>
+                                </div>
+                                <div class="max-h-96 overflow-y-auto">
+                                    <div th:each="notification : ${notifications}" class="px-4 py-2 hover:bg-gray-50">
+                                        <p class="text-sm" th:text="${notification.message}">Message</p>
+                                        <p class="text-xs text-gray-500" th:text="${#temporals.format(notification.date, 'dd/MM/yyyy HH:mm')}">Date</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Profil utilisateur -->
+                        <div class="relative" id="userDropdown">
+                            <button class="flex items-center space-x-2 hover:bg-gray-100 p-2 rounded-lg">
+                                <img th:src="${userAvatar}" alt="Avatar" class="w-8 h-8 rounded-full">
+                                <span class="text-gray-700" th:text="${#authentication.name}">Utilisateur</span>
+                                <i class="fas fa-chevron-down text-gray-500"></i>
+                            </button>
+                            <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-20" id="userMenu">
+                                <a th:href="@{/profile}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-user mr-2"></i> Profil
+                                </a>
+                                <a th:href="@{/settings}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-cog mr-2"></i> Paramètres
+                                </a>
+                                <div class="border-t my-1"></div>
+                                <form th:action="@{/logout}" method="post" class="block">
+                                    <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">
+                                        <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="p-6">
+                <div th:replace="${content}">
+                    <!-- Le contenu de la page sera inséré ici -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/main.js}"></script>
+    <th:block th:replace="${scripts} ?: _"></th:block>
+</body>
+</html> 

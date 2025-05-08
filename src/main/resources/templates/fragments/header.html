@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header" class="bg-white shadow">
+    <nav class="container mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center">
+                <a href="/" class="text-xl font-bold text-primary">PIGARC</a>
+            </div>
+            <div class="hidden md:flex space-x-4">
+                <!-- Only show dashboard for admin and HR -->
+                <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'', ''ROLE_HR'')')}"
+                   th:href="@{/dashboard}" 
+                   class="text-gray-700 hover:text-primary">
+                    Tableau de bord
+                </a>
+                
+                <!-- Show inventory for admin and stock managers -->
+                <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'', ''ROLE_STOCK'')')}"
+                   th:href="@{/inventory}" 
+                   class="text-gray-700 hover:text-primary">
+                    Inventaire
+                </a>
+                
+                <!-- Show employees for admin and HR -->
+                <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'', ''ROLE_HR'')')}"
+                   th:href="@{/employees}" 
+                   class="text-gray-700 hover:text-primary">
+                    Employés
+                </a>
+                
+                <!-- Time tracking available to all -->
+                <a th:href="@{/time-tracking}" 
+                   class="text-gray-700 hover:text-primary">
+                    Pointage
+                </a>
+            </div>
+            <div class="flex items-center">
+                <span th:text="${#authentication.name}" class="text-sm text-gray-700"></span>
+                <form th:action="@{/logout}" method="post" class="ml-4">
+                    <button type="submit" class="text-sm text-red-600 hover:text-red-800">Déconnexion</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+</html>

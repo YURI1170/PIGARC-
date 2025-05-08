@@ -1,0 +1,262 @@
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Classes d'animation optimisées */
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+    will-change: opacity;
+}
+
+.animate-slide-in {
+    animation: slideIn 0.3s ease-in-out;
+    will-change: transform, opacity;
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+    will-change: transform;
+}
+
+/* Styles personnalisés optimisés */
+.custom-shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    will-change: box-shadow;
+}
+
+.hover-scale {
+    transition: transform 0.2s ease-in-out;
+    will-change: transform;
+}
+
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+/* Styles pour les cartes optimisés */
+.card {
+    @apply bg-white rounded-lg shadow-md p-6 transition-all duration-300;
+    will-change: transform, box-shadow;
+}
+
+.card:hover {
+    @apply shadow-lg;
+}
+
+/* Styles pour les boutons optimisés */
+.btn {
+    @apply px-4 py-2 rounded-lg transition-all duration-200 font-medium;
+    will-change: background-color, transform;
+}
+
+.btn:disabled {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+.btn-primary {
+    @apply bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50;
+}
+
+.btn-secondary {
+    @apply bg-gray-500 text-white hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50;
+}
+
+.btn-danger {
+    @apply bg-red-500 text-white hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:ring-opacity-50;
+}
+
+.btn-success {
+    @apply bg-green-500 text-white hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-opacity-50;
+}
+
+/* Styles pour les formulaires optimisés */
+.form-input {
+    @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200;
+    will-change: border-color, box-shadow;
+}
+
+.form-input:disabled {
+    @apply bg-gray-100 cursor-not-allowed;
+}
+
+.form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.form-error {
+    @apply text-red-500 text-sm mt-1 animate-fade-in;
+}
+
+/* Styles pour les tableaux optimisés */
+.table-container {
+    @apply overflow-x-auto rounded-lg shadow;
+    will-change: transform;
+}
+
+.table {
+    @apply min-w-full divide-y divide-gray-200;
+}
+
+.table th {
+    @apply px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0;
+}
+
+.table td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
+}
+
+.table tr {
+    @apply hover:bg-gray-50 transition-colors duration-200;
+}
+
+/* Styles pour les badges optimisés */
+.badge {
+    @apply px-2 py-1 text-xs font-semibold rounded-full inline-flex items-center;
+    will-change: background-color;
+}
+
+.badge-success {
+    @apply bg-green-100 text-green-800;
+}
+
+.badge-warning {
+    @apply bg-yellow-100 text-yellow-800;
+}
+
+.badge-danger {
+    @apply bg-red-100 text-red-800;
+}
+
+.badge-info {
+    @apply bg-blue-100 text-blue-800;
+}
+
+/* Styles pour les modales optimisés */
+.modal-backdrop {
+    @apply fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    @apply bg-white rounded-lg shadow-xl p-6 max-w-lg w-full mx-4 animate-slide-in;
+    will-change: transform, opacity;
+}
+
+/* Styles pour les notifications optimisés */
+.notification {
+    @apply fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 animate-slide-in;
+    will-change: transform, opacity;
+}
+
+.notification-success {
+    @apply bg-green-100 text-green-800 border-l-4 border-green-500;
+}
+
+.notification-error {
+    @apply bg-red-100 text-red-800 border-l-4 border-red-500;
+}
+
+.notification-warning {
+    @apply bg-yellow-100 text-yellow-800 border-l-4 border-yellow-500;
+}
+
+.notification-info {
+    @apply bg-blue-100 text-blue-800 border-l-4 border-blue-500;
+}
+
+/* Styles pour les tooltips optimisés */
+.tooltip {
+    @apply absolute z-50 px-2 py-1 text-sm text-white bg-gray-900 rounded shadow-lg animate-fade-in;
+    will-change: transform, opacity;
+}
+
+/* Styles pour les graphiques optimisés */
+.chart-container {
+    @apply bg-white rounded-lg shadow p-6;
+    will-change: transform;
+}
+
+/* Styles pour les paginations optimisés */
+.pagination {
+    @apply flex justify-center space-x-2 mt-4;
+}
+
+.pagination-item {
+    @apply px-3 py-1 rounded-md hover:bg-gray-100 transition-colors duration-200;
+    will-change: background-color;
+}
+
+.pagination-active {
+    @apply bg-blue-500 text-white hover:bg-blue-600;
+}
+
+/* Styles pour les loaders optimisés */
+.loader {
+    @apply animate-spin rounded-full border-t-2 border-b-2 border-blue-500;
+    will-change: transform;
+}
+
+/* Styles pour les transitions optimisés */
+.transition-all {
+    transition: all 0.3s ease-in-out;
+    will-change: transform, opacity, background-color;
+}
+
+/* Styles pour les responsive optimisés */
+@media (max-width: 640px) {
+    .container {
+        @apply px-4;
+    }
+    
+    .table-container {
+        @apply -mx-4;
+    }
+    
+    .modal-content {
+        @apply mx-2;
+    }
+}
+
+/* Styles pour les dark mode optimisés */
+@media (prefers-color-scheme: dark) {
+    .dark-mode {
+        @apply bg-gray-900 text-white;
+    }
+    
+    .dark-mode .card {
+        @apply bg-gray-800;
+    }
+    
+    .dark-mode .table th {
+        @apply bg-gray-800 text-gray-300;
+    }
+    
+    .dark-mode .table td {
+        @apply text-gray-300;
+    }
+    
+    .dark-mode .table tr:hover {
+        @apply bg-gray-700;
+    }
+    
+    .dark-mode .form-input {
+        @apply bg-gray-700 border-gray-600 text-white;
+    }
+    
+    .dark-mode .form-input:disabled {
+        @apply bg-gray-800;
+    }
+} 
